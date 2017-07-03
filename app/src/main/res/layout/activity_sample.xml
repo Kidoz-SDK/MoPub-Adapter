@@ -1,0 +1,122 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FFAA7030"
+                android:orientation="vertical"
+                android:padding="10dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kidoz - MoPub Sample App"
+        android:textColor="#FFDDAA60"
+        android:textSize="18sp"/>
+
+    <!-- Feedback -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_marginBottom="8pt"
+        android:layout_marginTop="8pt"
+        android:background="#20000000"
+        android:orientation="vertical"
+        android:weightSum="4">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="Feedback:"
+            android:textColor="#FFDDAA60"
+            android:textSize="12sp"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/feedback_tv"
+            android:textColor="#FFDDAA60"
+            android:background="#20000000"
+            android:textSize="10sp"
+            android:layout_weight="3"/>
+    </LinearLayout>
+
+    <!-- Interface -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFDDAA60"
+            android:text="Interstitial: "/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/interstitial_load"
+            android:text="Load"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/interstitial_show"
+            android:text="Show"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFDDAA60"
+            android:text="Rewarded: "/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rewarded_load"
+            android:text="Load"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rewarded_show"
+            android:text="Show"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFDDAA60"
+            android:text="Banner:      "/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/banner_load"
+            android:text="Load"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#40101010">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MoPub Banner"
+            android:textColor="#FFEAEAEA"
+            android:layout_alignParentTop="true"/>
+
+        <com.mopub.mobileads.MoPubView
+            android:id="@+id/adview"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>
