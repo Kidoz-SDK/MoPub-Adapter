@@ -34,6 +34,8 @@ public class KidozCustomEventRewardedVideo extends CustomEventRewardedVideo
 
         if (mKidozManager == null)
         {
+            Log.d("ahmed","x0");
+
             //init Kidoz adapter helper
             Log.d(TAG, "Kidoz | KidozManager is null, calling KidozManager.getInstance()");
             mKidozManager = KidozManager.getInstance();
@@ -43,6 +45,8 @@ public class KidozCustomEventRewardedVideo extends CustomEventRewardedVideo
     @Override
     protected boolean checkAndInitializeSdk(@NonNull Activity launcherActivity, @NonNull Map<String, Object> localExtras, @NonNull Map<String, String> serverExtras) throws Exception
     {
+        Log.d("ahmed","x1");
+
         if (mKidozManager.getIsKidozInitialized()){
             return false; //notify sdk already initialized
         }
