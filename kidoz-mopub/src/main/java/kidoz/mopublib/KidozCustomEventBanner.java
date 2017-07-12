@@ -48,10 +48,8 @@ public class KidozCustomEventBanner extends CustomEventBanner
         //Kidoz must be initialized before an ad can be requested
         if (!mKidozManager.getIsKidozInitialized())
         {
-            Log.d("ahmed", "KidozBannerAdapter | kidoz not init, initializing first");
             initKidoz((Activity) context);
         } else {
-            Log.d("ahmed", "KidozBannerAdapter | kidoz already init");
             continueRequestBannerAd((Activity) context);
         }
     }
@@ -77,21 +75,17 @@ public class KidozCustomEventBanner extends CustomEventBanner
 
     private void continueRequestBannerAd(Activity activity)
     {
-        Log.d("ahmed", "KidozBannerAdapter | kidoz continueRequestBannerAd");
         if (mKidozManager.getBanner() == null)
         {
-            Log.d("ahmed", "kidozBannerAdapter | banner not set up, calling view load.");
             setupKidozBanner(activity);
         }
 
-        Log.d("ahmed", "KidozBannerAdapter | continueRequestBannerAd | calling load()");
         mKidozManager.getBanner().setLayoutWithoutShowing();
         mKidozManager.getBanner().load();
     }
 
     private void setupKidozBanner(final Activity activity)
     {
-        Log.d("ahmed", "kidozBannerAdapter | kidozBannerView == null, calling view creation. START");
         mKidozManager.setupKidozBanner(activity, DEFAULT_BANNER_POSITION, new KidozBannerListener()
         {
             @Override
@@ -112,9 +106,10 @@ public class KidozCustomEventBanner extends CustomEventBanner
             }
 
             @Override
-            public void onBannerError()
+            public void onBannerError(String errorMsg)
             {
-                mCustomEventBannerListener.onBannerFailed(MoPubErrorCode.NETWORK_TIMEOUT);
+                Log.e(TAG, errorMsg);
+                mCustomEventBannerListener.onBannerFailed(MoPubErrorCode.INTERNAL_ERROR);
             }
 
             @Override
@@ -123,12 +118,18 @@ public class KidozCustomEventBanner extends CustomEventBanner
                 mCustomEventBannerListener.onBannerCollapsed();
             }
         });
-        Log.d("ahmed", "kidozBannerAdapter | kidozBannerView == null, calling view creation. END");
     }
 
     @Override
     protected void onInvalidate()
     {
+    }
 
+    private void resetHide()
+    {
+        if (mKidozManager.getBanner() != null)
+        {
+            mKidozManager.getBanner().hide();
+        }
     }
 }

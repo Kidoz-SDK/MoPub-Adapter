@@ -1,6 +1,7 @@
 package kidoz.mopublib;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.kidoz.sdk.api.KidozInterstitial;
 import com.kidoz.sdk.api.KidozSDK;
@@ -73,6 +74,7 @@ public class KidozManager
     }
 
     protected void setupKidozRewadrded(Activity activity, BaseInterstitial.IOnInterstitialEventListener interstitialListener, BaseInterstitial.IOnInterstitialRewardedEventListener rewardedListener){
+        Log.d("ahmed", "on setup | manager instance = " + KidozManager.this.toString());
         mKidozRewarded = new KidozInterstitial(activity, KidozInterstitial.AD_TYPE.REWARDED_VIDEO);
         mKidozRewarded.setOnInterstitialEventListener(interstitialListener);
         mKidozRewarded.setOnInterstitialRewardedEventListener(rewardedListener);
@@ -95,6 +97,7 @@ public class KidozManager
     }
 
     protected KidozInterstitial getRewarded(){
+        Log.d("ahmed", "on getRewarded | manager instance = " + KidozManager.this.toString());
         return mKidozRewarded;
     }
 

@@ -34,8 +34,6 @@ public class KidozCustomEventRewardedVideo extends CustomEventRewardedVideo
 
         if (mKidozManager == null)
         {
-            Log.d("ahmed","x0");
-
             //init Kidoz adapter helper
             Log.d(TAG, "Kidoz | KidozManager is null, calling KidozManager.getInstance()");
             mKidozManager = KidozManager.getInstance();
@@ -45,7 +43,6 @@ public class KidozCustomEventRewardedVideo extends CustomEventRewardedVideo
     @Override
     protected boolean checkAndInitializeSdk(@NonNull Activity launcherActivity, @NonNull Map<String, Object> localExtras, @NonNull Map<String, String> serverExtras) throws Exception
     {
-        Log.d("ahmed","x1");
 
         if (mKidozManager.getIsKidozInitialized()){
             return false; //notify sdk already initialized
@@ -83,7 +80,6 @@ public class KidozCustomEventRewardedVideo extends CustomEventRewardedVideo
     @Override
     protected void loadWithSdkInitialized(@NonNull final Activity activity, @NonNull Map<String, Object> localExtras, @NonNull Map<String, String> serverExtras) throws Exception
     {
-        Log.d("ahmed","x2");
         if (!mKidozManager.getIsKidozInitialized())
         {
             mOnKidozInitRunnable = new Runnable()
@@ -91,7 +87,6 @@ public class KidozCustomEventRewardedVideo extends CustomEventRewardedVideo
                 @Override
                 public void run()
                 {
-                    Log.d("ahmed","x3");
                     //load Kidoz ad when SDK init finishes
                     loadKidozRewardedAd(activity);
                 }
@@ -99,22 +94,17 @@ public class KidozCustomEventRewardedVideo extends CustomEventRewardedVideo
             return;
         }
 
-        Log.d("ahmed","x3.5");
         loadKidozRewardedAd(activity);
     }
 
     private void loadKidozRewardedAd(Activity activity)
     {
-        Log.d("ahmed","x3.6");
+        Log.d(TAG, "KidozRewarded | loadKidozRewardedAd()");
         KidozInterstitial rewardedInterstitial = mKidozManager.getRewarded();
-        Log.d("ahmed","x3.7");
-        if (rewardedInterstitial == null){
-            Log.d("ahmed","x3.71 rewardedInterstitial == null");
-//            setKidozAd(activity);
-//            rewardedInterstitial = mKidozManager.getRewarded();
+        if (rewardedInterstitial != null){
+            Log.d(TAG, "KidozRewarded | loadKidozRewardedAd() | loadAd()");
+            rewardedInterstitial.loadAd();
         }
-        rewardedInterstitial.loadAd();
-        Log.d("ahmed","x3.8");
     }
 
     @Override
@@ -170,37 +160,35 @@ public class KidozCustomEventRewardedVideo extends CustomEventRewardedVideo
                     public void onClosed()
                     {
                         MoPubRewardedVideoManager.onRewardedVideoClosed(KidozCustomEventRewardedVideo.class, KIDOZ_ID);
-                        Log.d(TAG, "Kidoz | onAdClosed");
+                        Log.d(TAG, "KidozRewarded | onAdClosed");
                     }
 
                     @Override
                     public void onOpened()
                     {
                         MoPubRewardedVideoManager.onRewardedVideoStarted(KidozCustomEventRewardedVideo.class, KIDOZ_ID);
-                        Log.d(TAG, "Kidoz | onAdOpened");
+                        Log.d(TAG, "KidozRewarded | onAdOpened");
                     }
 
                     @Override
                     public void onReady()
                     {
-                        Log.d("ahmed","x4");
                         MoPubRewardedVideoManager.onRewardedVideoLoadSuccess(KidozCustomEventRewardedVideo.class, KIDOZ_ID);
-                        Log.d(TAG, "Kidoz | onAdReady");
+                        Log.d(TAG, "KidozRewarded | onAdReady");
                     }
 
                     @Override
                     public void onLoadFailed()
                     {
-                        Log.d("ahmed","x5");
                         MoPubRewardedVideoManager.onRewardedVideoLoadFailure(KidozCustomEventRewardedVideo.class, KIDOZ_ID, MoPubErrorCode.VIDEO_DOWNLOAD_ERROR);
-                        Log.d(TAG, "Kidoz | onLoadFailed");
+                        Log.d(TAG, "KidozRewarded | onLoadFailed");
                     }
 
                     @Override
                     public void onNoOffers()
                     {
                         MoPubRewardedVideoManager.onRewardedVideoLoadFailure(KidozCustomEventRewardedVideo.class, KIDOZ_ID, MoPubErrorCode.VIDEO_NOT_AVAILABLE);
-                        Log.d(TAG, "Kidoz | onNoOffers");
+                        Log.d(TAG, "KidozRewarded | onNoOffers");
                     }
                 },
                 new BaseInterstitial.IOnInterstitialRewardedEventListener()
@@ -215,7 +203,7 @@ public class KidozCustomEventRewardedVideo extends CustomEventRewardedVideo
 
                         //Note: Kidoz currently have no server to client reward exposure.
                         MoPubRewardedVideoManager.onRewardedVideoCompleted(KidozCustomEventRewardedVideo.class, KIDOZ_ID, MoPubReward.success(DEFAULT_REWARD_NAME, DEFAULT_REWARD_AMOUNT));
-                        Log.d(TAG, "Kidoz | onRewardReceived");
+                        Log.d(TAG, "KidozRewarded | onRewardReceived");
                     }
 
                     @Override
@@ -227,7 +215,7 @@ public class KidozCustomEventRewardedVideo extends CustomEventRewardedVideo
                         }
 
                         MoPubRewardedVideoManager.onRewardedVideoStarted(KidozCustomEventRewardedVideo.class, KIDOZ_ID);
-                        Log.d(TAG, "Kidoz | onRewardedStarted");
+                        Log.d(TAG, "KidozRewarded | onRewardedStarted");
                     }
                 });
     }
