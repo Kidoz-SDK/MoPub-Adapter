@@ -37,9 +37,6 @@ KidozManager.setRewardedEvents(<new BaseInterstitial.IOnInterstitialRewardedEven
     * To use Kidoz Banner: kidoz.mopublib.KidozCustomEventBanner
 
 * Please Note: you can change the Kidoz adapter classpath in your project but maker sure the class names you put in the MoPub dashboard correspond to your final adapter location.
-
-<a href="url"><img src="https://s3.amazonaws.com/kidoz-cdn/sdk/GitHub_Tutorial_Img/custom_event_tut.JPG" align="left" height="320" width="720" ></a>
-</br>
  
 
 </br>
