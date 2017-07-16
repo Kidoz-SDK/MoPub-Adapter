@@ -43,13 +43,15 @@ public class KidozCustomEventRewardedVideo extends CustomEventRewardedVideo
     @Override
     protected boolean checkAndInitializeSdk(@NonNull Activity launcherActivity, @NonNull Map<String, Object> localExtras, @NonNull Map<String, String> serverExtras) throws Exception
     {
+        //Setup Kidoz Rewarded ad if needed
+        if (mKidozManager.getRewarded() == null)
+        {
+            setKidozAd(launcherActivity);
+        }
 
         if (mKidozManager.getIsKidozInitialized()){
             return false; //notify sdk already initialized
         }
-
-        //Set Kidoz Rewarded ad listener
-        setKidozAd(launcherActivity);
 
         //init Kidoz SDK
         mKidozManager.initKidozSDK(launcherActivity, new SDKEventListener()

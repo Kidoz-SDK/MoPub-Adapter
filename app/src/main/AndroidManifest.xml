@@ -20,7 +20,7 @@
         android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
         android:name="android.support.multidex.MultiDexApplication">
 
-        <activity android:name=".view.MainScreenActivityImpl">
+        <activity android:name=".view.MainScreenActivityImpl" android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
