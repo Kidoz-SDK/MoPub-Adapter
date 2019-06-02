@@ -97,6 +97,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/banner_load"
             android:text="Load"/>
+
+        <Button
+            android:id="@+id/banner_hide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Destroy"/>
     </LinearLayout>
 
     <RelativeLayout

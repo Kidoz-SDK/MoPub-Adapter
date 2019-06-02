@@ -1,4 +1,4 @@
-package kidoz.mopublib;
+package com.kidoz.mediation.mopub.adapters;
 
 import android.app.Activity;
 import android.util.Log;
@@ -11,9 +11,8 @@ import com.kidoz.sdk.api.ui_views.kidoz_banner.KidozBannerListener;
 import com.kidoz.sdk.api.ui_views.new_kidoz_banner.BANNER_POSITION;
 import com.kidoz.sdk.api.ui_views.new_kidoz_banner.KidozBannerView;
 
-/**
- * Created by orikam on 07/06/2017.
- */
+import java.util.Map;
+
 
 public class KidozManager
 {
@@ -21,9 +20,10 @@ public class KidozManager
     private KidozInterstitial mKidozInterstitial;
     private KidozInterstitial mKidozRewarded;
     private KidozBannerView mKidozBanner;
+    private static final String TAG = "KidozManager";
 
-    private static String mKidozPublisherId = "5"; //default (test values)
-    private static String mKidozPublisherToken = "i0tnrdwdtq0dm36cqcpg6uyuwupkj76s"; //default (test values)
+    private static String mKidozPublisherId = "";// "5"; //default (test values)
+    private static String mKidozPublisherToken = ""; //"i0tnrdwdtq0dm36cqcpg6uyuwupkj76s"; //default (test values)
     private static BaseInterstitial.IOnInterstitialRewardedEventListener mDeveloperRewardedListener;
 
     /************************
@@ -32,7 +32,7 @@ public class KidozManager
 
     private static KidozManager sInstance = null;
 
-    public static KidozManager getInstance()
+    synchronized public static KidozManager getInstance()
     {
         if (sInstance == null)
         {
@@ -68,17 +68,47 @@ public class KidozManager
         mKidozBanner.setKidozBannerListener(kidozBannerListener);
     }
 
+
+    protected KidozBannerView getKidozBanner(Activity activity){
+        return KidozSDK.getKidozBanner(activity);
+    }
+
+    protected void setupKidozBanner(KidozBannerView KidozBanner, BANNER_POSITION bannerPosition, KidozBannerListener kidozBannerListener){
+        KidozBanner.setBannerPosition(bannerPosition);
+        KidozBanner.setKidozBannerListener(kidozBannerListener);
+    }
+
+
+    protected void createKidozInterstitial(Activity activity){
+        mKidozInterstitial = new KidozInterstitial(activity, KidozInterstitial.AD_TYPE.INTERSTITIAL);
+    }
+
+    protected void setupKidozInterstitial(KidozInterstitial kidozInterstitial, BaseInterstitial.IOnInterstitialEventListener interstitialListener){
+        kidozInterstitial.setOnInterstitialEventListener(interstitialListener);
+    }
+
     protected void setupKidozInterstitial(Activity activity, BaseInterstitial.IOnInterstitialEventListener interstitialListener){
         mKidozInterstitial = new KidozInterstitial(activity, KidozInterstitial.AD_TYPE.INTERSTITIAL);
         mKidozInterstitial.setOnInterstitialEventListener(interstitialListener);
     }
 
     protected void setupKidozRewadrded(Activity activity, BaseInterstitial.IOnInterstitialEventListener interstitialListener, BaseInterstitial.IOnInterstitialRewardedEventListener rewardedListener){
-        Log.d("ahmed", "on setup | manager instance = " + KidozManager.this.toString());
         mKidozRewarded = new KidozInterstitial(activity, KidozInterstitial.AD_TYPE.REWARDED_VIDEO);
         mKidozRewarded.setOnInterstitialEventListener(interstitialListener);
         mKidozRewarded.setOnInterstitialRewardedEventListener(rewardedListener);
     }
+
+
+    protected void createKidozRewadrded(Activity activity){
+        mKidozRewarded = new KidozInterstitial(activity, KidozInterstitial.AD_TYPE.REWARDED_VIDEO);
+    }
+
+
+    protected void setupKidozRewadrded(KidozInterstitial mKidozRewarded, BaseInterstitial.IOnInterstitialEventListener interstitialListener, BaseInterstitial.IOnInterstitialRewardedEventListener rewardedListener){
+        mKidozRewarded.setOnInterstitialEventListener(interstitialListener);
+        mKidozRewarded.setOnInterstitialRewardedEventListener(rewardedListener);
+    }
+
 
     protected void initKidozSDK(Activity activity, SDKEventListener sdkEventsListener)
     {
@@ -97,11 +127,50 @@ public class KidozManager
     }
 
     protected KidozInterstitial getRewarded(){
-        Log.d("ahmed", "on getRewarded | manager instance = " + KidozManager.this.toString());
         return mKidozRewarded;
     }
 
     protected BaseInterstitial.IOnInterstitialRewardedEventListener getDeveloperRewardedListener(){
         return mDeveloperRewardedListener;
     }
+
+
+    protected static String getPublisherIdFromParams(Map<String, String> serverExtras) {
+        String appID = null;
+        if (serverExtras != null && !serverExtras.isEmpty()) {
+            try
+            {
+                appID = serverExtras.get("AppID");
+                if (appID == null)
+                    Log.d(TAG, "Kidoz | PublisherId parameter - Token AppID");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.d(TAG, "Kidoz | PublisherId parameter error");
+            }
+        }else {
+            Log.d(TAG, "Kidoz | PublisherId parameter empty");
+        }
+        return appID;
+    }
+
+
+    protected static String getPublisherTokenFromParams(Map<String, String> serverExtras) {
+        String token = "";
+        if (serverExtras != null && !serverExtras.isEmpty()) {
+            try
+            {
+                token = serverExtras.get("Token");
+                if (token == null)
+                    Log.d(TAG, "Kidoz | PublisherToken parameter - Token error");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.d(TAG, "Kidoz | PublisherToken parameter error");
+            }
+
+        }else {
+            Log.d(TAG, "Kidoz | PublisherToken parameter empty");
+        }
+        return token;
+    }
+
 }

@@ -1,4 +1,4 @@
-package kidoz.mopublib;
+package com.kidoz.mediation.mopub.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,16 +12,13 @@ import com.mopub.mobileads.MoPubErrorCode;
 
 import java.util.Map;
 
-/**
- * Created by orikam on 03/07/2017.
- */
 
 public class KidozCustomEventInterstitial extends CustomEventInterstitial
 {
     private static final String TAG = "KidozCustomEventInterstitial";
 
     private KidozManager mKidozManager;
-    private CustomEventInterstitial.CustomEventInterstitialListener mMoPubCustomInterstitialListener;
+    private CustomEventInterstitialListener mMoPubCustomInterstitialListener;
 
     public KidozCustomEventInterstitial() {
         mKidozManager = KidozManager.getInstance();
@@ -39,52 +36,63 @@ public class KidozCustomEventInterstitial extends CustomEventInterstitial
             return;
         }
 
-        setKidozAd((Activity) context); //and then continue request
-
         //Kidoz must be initialized before an ad can be requested
-        if (!mKidozManager.getIsKidozInitialized())
-        {
-            initKidoz((Activity) context);
+        if (!mKidozManager.getIsKidozInitialized()) {
+
+            String appID = mKidozManager.getPublisherIdFromParams(serverExtras);
+            String token = mKidozManager.getPublisherTokenFromParams(serverExtras);
+
+            if(appID!=null && token!=null && !appID.equals("") && !token.equals("")) {
+                mKidozManager.setKidozPublisherId(appID);
+                mKidozManager.setKidozPublisherToken(token);
+                initKidoz((Activity) context);
+            }
+
+
         } else {
-            continueRequestInterstitialAd();
+            continueRequestInterstitialAd((Activity) context);
         }
     }
 
-    private void initKidoz(Activity activity)
+    private void initKidoz(final Activity activity)
     {
         mKidozManager.initKidozSDK(activity, new SDKEventListener()
         {
             @Override
             public void onInitSuccess()
             {
-                continueRequestInterstitialAd();
+                continueRequestInterstitialAd(activity);
+                Log.d(TAG, "kidozInterstitialAdapter | onInitSuccess");
+
             }
 
             @Override
             public void onInitError(String error)
             {
                 mMoPubCustomInterstitialListener.onInterstitialFailed(MoPubErrorCode.NETWORK_INVALID_STATE);
-                Log.d(TAG, "Kidoz | onInitError: " + error);
+                Log.d(TAG, "kidozInterstitialAdapter | onInitError: " + error);
             }
         });
     }
 
-    private void setKidozAd(Activity activity)
+
+
+    private void setKidozAd()
     {
-        mKidozManager.setupKidozInterstitial(activity, new BaseInterstitial.IOnInterstitialEventListener()
+        mKidozManager.setupKidozInterstitial(mKidozManager.getInterstitial(), new BaseInterstitial.IOnInterstitialEventListener()
         {
             @Override
             public void onClosed()
             {
                 mMoPubCustomInterstitialListener.onInterstitialDismissed();
-                Log.d(TAG, "Kidoz | onAdClosed");
+                Log.d(TAG, "kidozInterstitialAdapter | onAdClosed");
             }
 
             @Override
             public void onOpened()
             {
                 mMoPubCustomInterstitialListener.onInterstitialShown();
-                Log.d(TAG, "Kidoz | onAdOpened");
+                Log.d(TAG, "kidozInterstitialAdapter | onAdOpened");
             }
 
             @Override
@@ -98,34 +106,50 @@ public class KidozCustomEventInterstitial extends CustomEventInterstitial
             public void onLoadFailed()
             {
                 mMoPubCustomInterstitialListener.onInterstitialFailed(MoPubErrorCode.INTERNAL_ERROR);
-                Log.d(TAG, "Kidoz | onLoadFailed");
+                Log.d(TAG, "kidozInterstitialAdapter | onLoadFailed");
             }
 
             @Override
             public void onNoOffers()
             {
                 mMoPubCustomInterstitialListener.onInterstitialFailed(MoPubErrorCode.NETWORK_NO_FILL);
-                Log.d(TAG, "Kidoz | onNoOffers");
+                Log.d(TAG, "kidozInterstitialAdapter | onNoOffers");
             }
         });
     }
 
-    private void continueRequestInterstitialAd()
+
+    private void continueRequestInterstitialAd(Activity activity)
     {
+        if(mKidozManager.getInterstitial() == null)
+            mKidozManager.createKidozInterstitial(activity);
+
+        setKidozAd();
+
+        Log.d(TAG, "kidozInterstitialAdapter | continueRequestInterstitialAd");
         KidozInterstitial kidozInterstitial = mKidozManager.getInterstitial();
-        kidozInterstitial.loadAd();
+
+        if(!kidozInterstitial.isLoaded())
+            kidozInterstitial.loadAd();
+        else
+            mMoPubCustomInterstitialListener.onInterstitialLoaded();
+
     }
+
 
     @Override
     public void showInterstitial()
     {
-        KidozInterstitial kidozInterstitial = mKidozManager.getInterstitial();
-        kidozInterstitial.show();
+        Log.d(TAG, "kidozInterstitialAdapter | showInterstitial");
+
+         KidozInterstitial kidozInterstitial = mKidozManager.getInterstitial();
+         kidozInterstitial.show();
     }
 
     @Override
     protected void onInvalidate()
     {
+        Log.d(TAG, "kidozInterstitialAdapter | onInvalidate");
 
     }
 }

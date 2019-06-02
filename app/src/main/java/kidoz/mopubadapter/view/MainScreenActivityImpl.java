@@ -21,6 +21,7 @@ public class MainScreenActivityImpl extends Activity implements MainScreenActivi
     private Button mRewardedLoad;
     private Button mRewardedShow;
     private Button mBannerLoad;
+    private Button mBannerHide;
 
 
     @Override
@@ -44,6 +45,9 @@ public class MainScreenActivityImpl extends Activity implements MainScreenActivi
         mRewardedLoad = (Button) findViewById(R.id.rewarded_load);
         mRewardedShow = (Button) findViewById(R.id.rewarded_show);
         mBannerLoad = (Button) findViewById(R.id.banner_load);
+        mBannerHide = (Button) findViewById(R.id.banner_hide);
+
+
     }
 
     private void setButtons()
@@ -90,6 +94,16 @@ public class MainScreenActivityImpl extends Activity implements MainScreenActivi
             public void onClick(View view)
             {
                 mMainPresenter.onClick_LoadBanner();
+            }
+        });
+
+
+        mBannerHide.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                mMainPresenter.onClick_HideBanner();
             }
         });
     }

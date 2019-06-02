@@ -85,6 +85,14 @@ public class MainScreenPresenterImpl implements MainScreenPresenter
         mMoPubModel.loadAndShowBanner();
     }
 
+
+
+    @Override
+    public void onClick_HideBanner()
+    {
+        mMoPubModel.hideBanner();
+    }
+
     @Override
     public void onClick_ShowBanner()
     {

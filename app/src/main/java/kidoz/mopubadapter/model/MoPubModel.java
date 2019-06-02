@@ -2,6 +2,7 @@ package kidoz.mopubadapter.model;
 
 import android.app.Activity;
 import android.util.Log;
+import android.view.ViewGroup;
 
 import com.mopub.mobileads.MoPubInterstitial;
 import com.mopub.mobileads.MoPubRewardedVideoListener;
@@ -24,9 +25,12 @@ public class MoPubModel
     private static final String PROBLEM_REGISTERING_INTERSTITIAL_LISTENER = "There was a problem registering an interstitial listener.";
     private static final String PROBLEM_REGISTERING_REWARDED_VIDEO_LISTENER = "There was a problem registering an rewarded video listener.";
 
-    private static final String MOPUB_BANNER_ADUNIT_ID = "96c0d688738f4603b7399fe88cf19bfc";
-    private static final String MOPUB_INTERSTITIAL_ADUNIT_ID = "a8ffd55af03a405493cb153fc4a716be";
-    private static final String MOPUB_REWARDED_VIDEO_ADUNIT_ID = "2fc367600e1d4452a920e9ce78bf27a7";
+    private static final String MOPUB_BANNER_ADUNIT_ID = "b733576f7f6a46ad8617e69956911a4f";
+    private static final String MOPUB_INTERSTITIAL_ADUNIT_ID = "a64f666b4c20401f93690118fe063758";
+    private static final String MOPUB_REWARDED_VIDEO_ADUNIT_ID = "325481b243e14579add92861c5a9b8b5";
+
+
+
 
     private MoPubView mMopubView;
     private MoPubInterstitial mInterstitial;
@@ -124,6 +128,13 @@ public class MoPubModel
         mMopubView.loadAd();
     }
 
+    public void hideBanner(){
+        mMopubView.destroy();
+    }
+
+
+
+
     public void registerBannerListener(BannerEventsListener bannerEventsListener)
     {
         if (mMopubView == null || bannerEventsListener == null)
@@ -138,6 +149,13 @@ public class MoPubModel
         if (mMopubView != null)
         {
             mMopubView.destroy();
+        }
+    }
+
+    public void invalidateBanner(){
+        if (mMopubView != null)
+        {
+            mMopubView.invalidate();
         }
     }
 

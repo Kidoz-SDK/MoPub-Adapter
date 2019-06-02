@@ -1,14 +1,14 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.0"
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion 17
+        targetSdkVersion 28
+        versionCode 13
+        versionName "1.3"
 
     }
     buildTypes {
@@ -21,7 +21,51 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    provided('com.mopub:mopub-sdk:4.9.0@aar') {
-        transitive = true
+    compile('com.mopub:mopub-sdk:4.9.0@aar') {
+            transitive = true
     }
+
+    compile 'com.kidoz.sdk:KidozSDK:0.8.8.2@aar'
+
+}
+task deleteJarDebug(type: Delete) {
+    delete 'outputs/jar/kidoz-mopub-debug.jar'
+}
+
+task createJarDebug(type: Copy) {
+    from('build/intermediates/bundles/debug/')
+    into('build/outputs/jar')
+    include('classes.jar')
+    rename('classes.jar', 'kidoz-mopub-debug.jar')
+}
+
+
+createJarDebug.dependsOn(deleteJarDebug)
+
+//execute debug Jar creation after last build task
+tasks.whenTaskAdded { task ->
+    if (task.name == 'bundleDebug') {
+        task.finalizedBy createJarDebug
+    }
+}
+
+// delete & recreate release Jar
+task deleteJarRelease(type: Delete) {
+    delete 'outputs/jar/kidoz-mopub-release.jar'
+}
+
+task createJarRelease(type: Copy) {
+    from('build/intermediates/bundles/default/')
+    //not clear why under this project 'release' folder is called 'default'
+    into('build/outputs/jar')
+    include('classes.jar')
+    rename('classes.jar', 'kidoz-mopub-release.jar')
+}
+
+//execute debug Jar creation after last build task
+tasks.whenTaskAdded { task ->
+    if (task.name == 'bundleRelease') {
+        task.finalizedBy createJarRelease
+    }
+
 }

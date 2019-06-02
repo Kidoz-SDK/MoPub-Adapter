@@ -1,4 +1,4 @@
-package kidoz.mopublib;
+package com.kidoz.mediation.mopub.adapters;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
@@ -15,10 +15,6 @@ import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubRewardedVideoManager;
 
 import java.util.Map;
-
-/**
- * Created by orikam on 03/07/2017.
- */
 
 public class KidozCustomEventRewardedVideo extends CustomEventRewardedVideo
 {
@@ -44,39 +40,58 @@ public class KidozCustomEventRewardedVideo extends CustomEventRewardedVideo
     protected boolean checkAndInitializeSdk(@NonNull Activity launcherActivity, @NonNull Map<String, Object> localExtras, @NonNull Map<String, String> serverExtras) throws Exception
     {
         //Setup Kidoz Rewarded ad if needed
-        if (mKidozManager.getRewarded() == null)
+       /* if (mKidozManager.getRewarded() == null)
         {
             setKidozAd(launcherActivity);
-        }
+        }*/
+
+        if(mKidozManager.getRewarded()==null)
+            mKidozManager.createKidozRewadrded(launcherActivity);
+
+        setKidozAd();
+
 
         if (mKidozManager.getIsKidozInitialized()){
             return false; //notify sdk already initialized
-        }
+        }else {
 
-        //init Kidoz SDK
-        mKidozManager.initKidozSDK(launcherActivity, new SDKEventListener()
-        {
-            @Override
-            public void onInitSuccess()
+            if (serverExtras != null)
             {
-                Log.d(TAG, "Kidoz | SDK init success");
+                String appID = mKidozManager.getPublisherIdFromParams(serverExtras);
+                String token = mKidozManager.getPublisherTokenFromParams(serverExtras);
 
-                if (mOnKidozInitRunnable != null)
+
+                if (appID != null && token != null && !appID.equals("") && !token.equals(""))
                 {
-                    Log.d(TAG, "Kidoz | SDK init success | running onInit code");
-                    mOnKidozInitRunnable.run();
+                    mKidozManager.setKidozPublisherId(appID);
+                    mKidozManager.setKidozPublisherToken(token);
+
+                    //init Kidoz SDK
+                    mKidozManager.initKidozSDK(launcherActivity, new SDKEventListener()
+                    {
+                        @Override
+                        public void onInitSuccess()
+                        {
+                            Log.d(TAG, "Kidoz | SDK init success");
+
+                            if (mOnKidozInitRunnable != null)
+                            {
+                                Log.d(TAG, "Kidoz | SDK init success | running onInit code");
+                                mOnKidozInitRunnable.run();
+                            }
+                        }
+
+                        @Override
+                        public void onInitError(String error)
+                        {
+                            Log.d(TAG, "Kidoz | SDK init error. error = " + error);
+                            MoPubRewardedVideoManager.onRewardedVideoLoadFailure(KidozCustomEventRewardedVideo.class, KIDOZ_ID, MoPubErrorCode.NETWORK_INVALID_STATE);
+                        }
+                    });
                 }
             }
-
-            @Override
-            public void onInitError(String error)
-            {
-                Log.d(TAG, "Kidoz | SDK init error. error = " + error);
-                MoPubRewardedVideoManager.onRewardedVideoLoadFailure(KidozCustomEventRewardedVideo.class, KIDOZ_ID, MoPubErrorCode.NETWORK_INVALID_STATE);
-            }
-        });
-
-        return true;
+            return true;
+        }
     }
 
     @Override
@@ -90,22 +105,27 @@ public class KidozCustomEventRewardedVideo extends CustomEventRewardedVideo
                 public void run()
                 {
                     //load Kidoz ad when SDK init finishes
-                    loadKidozRewardedAd(activity);
+                    loadKidozRewardedAd();
                 }
             };
             return;
         }
 
-        loadKidozRewardedAd(activity);
+        loadKidozRewardedAd();
     }
 
-    private void loadKidozRewardedAd(Activity activity)
+    private void loadKidozRewardedAd()
     {
         Log.d(TAG, "KidozRewarded | loadKidozRewardedAd()");
         KidozInterstitial rewardedInterstitial = mKidozManager.getRewarded();
         if (rewardedInterstitial != null){
-            Log.d(TAG, "KidozRewarded | loadKidozRewardedAd() | loadAd()");
-            rewardedInterstitial.loadAd();
+            if(!rewardedInterstitial.isLoaded()){
+                Log.d(TAG, "KidozRewarded | loadKidozRewardedAd() | loadAd()");
+                rewardedInterstitial.loadAd();
+            }else {
+                MoPubRewardedVideoManager.onRewardedVideoLoadSuccess(KidozCustomEventRewardedVideo.class, KIDOZ_ID);
+                Log.d(TAG, "KidozRewarded | onAdReady");
+            }
         }
     }
 
@@ -153,6 +173,73 @@ public class KidozCustomEventRewardedVideo extends CustomEventRewardedVideo
         return true;
     }
 
+    private void setKidozAd()
+    {
+        mKidozManager.setupKidozRewadrded(mKidozManager.getRewarded(), new BaseInterstitial.IOnInterstitialEventListener()
+                {
+                    @Override
+                    public void onClosed()
+                    {
+                        MoPubRewardedVideoManager.onRewardedVideoClosed(KidozCustomEventRewardedVideo.class, KIDOZ_ID);
+                        Log.d(TAG, "KidozRewarded | onAdClosed");
+                    }
+
+                    @Override
+                    public void onOpened()
+                    {
+                        MoPubRewardedVideoManager.onRewardedVideoStarted(KidozCustomEventRewardedVideo.class, KIDOZ_ID);
+                        Log.d(TAG, "KidozRewarded | onAdOpened");
+                    }
+
+                    @Override
+                    public void onReady()
+                    {
+                        MoPubRewardedVideoManager.onRewardedVideoLoadSuccess(KidozCustomEventRewardedVideo.class, KIDOZ_ID);
+                        Log.d(TAG, "KidozRewarded | onAdReady");
+                    }
+
+                    @Override
+                    public void onLoadFailed()
+                    {
+                        MoPubRewardedVideoManager.onRewardedVideoLoadFailure(KidozCustomEventRewardedVideo.class, KIDOZ_ID, MoPubErrorCode.VIDEO_DOWNLOAD_ERROR);
+                        Log.d(TAG, "KidozRewarded | onLoadFailed");
+                    }
+
+                    @Override
+                    public void onNoOffers()
+                    {
+                        MoPubRewardedVideoManager.onRewardedVideoLoadFailure(KidozCustomEventRewardedVideo.class, KIDOZ_ID, MoPubErrorCode.VIDEO_NOT_AVAILABLE);
+                        Log.d(TAG, "KidozRewarded | onNoOffers");
+                    }
+                },
+                new BaseInterstitial.IOnInterstitialRewardedEventListener()
+                {
+                    @Override
+                    public void onRewardReceived()
+                    {
+                        BaseInterstitial.IOnInterstitialRewardedEventListener devListener = mKidozManager.getDeveloperRewardedListener();
+                        if (devListener != null){
+                            devListener.onRewardReceived();
+                        }
+
+                        //Note: Kidoz currently have no server to client reward exposure.
+                        MoPubRewardedVideoManager.onRewardedVideoCompleted(KidozCustomEventRewardedVideo.class, KIDOZ_ID, MoPubReward.success(DEFAULT_REWARD_NAME, DEFAULT_REWARD_AMOUNT));
+                        Log.d(TAG, "KidozRewarded | onRewardReceived");
+                    }
+
+                    @Override
+                    public void onRewardedStarted()
+                    {
+                        BaseInterstitial.IOnInterstitialRewardedEventListener devListener = mKidozManager.getDeveloperRewardedListener();
+                        if (devListener != null){
+                            devListener.onRewardedStarted();
+                        }
+
+                        MoPubRewardedVideoManager.onRewardedVideoStarted(KidozCustomEventRewardedVideo.class, KIDOZ_ID);
+                        Log.d(TAG, "KidozRewarded | onRewardedStarted");
+                    }
+                });
+    }
 
     private void setKidozAd(Activity activity)
     {
@@ -185,6 +272,7 @@ public class KidozCustomEventRewardedVideo extends CustomEventRewardedVideo
                         MoPubRewardedVideoManager.onRewardedVideoLoadFailure(KidozCustomEventRewardedVideo.class, KIDOZ_ID, MoPubErrorCode.VIDEO_DOWNLOAD_ERROR);
                         Log.d(TAG, "KidozRewarded | onLoadFailed");
                     }
+
 
                     @Override
                     public void onNoOffers()
