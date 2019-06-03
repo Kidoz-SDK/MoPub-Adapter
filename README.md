@@ -4,7 +4,8 @@ Kidoz MoPub mediation adapter
 </br>
 
 **Prerequisits:**
-* To use the Kidoz SDK adapter for MoPub, please make sure you have:
+
+In order to use the Kidoz SDK adapter for MoPub, please make sure you have:
 1. MoPub Mediation integrated in your project.
 2. A fully functional MoPub ad placement defined in your MoPub dashboard.
 3. Kidoz SDK integrated in your project.
@@ -23,15 +24,13 @@ compile 'com.kidoz.sdk:KidozSDK:0.8.8.2@aar'
 
 3.4. Set your Kidoz PublisherId & PublisherToken in the adapter using the following:
 
-if you are using the java files in the adapters folder:
-
+- If you are using the java files in the adapters folder:
 ```
 KidozManager.setKidozPublisherId(<publisherId>)
 KidozManager.setKidozPublisherToken(<publisherToken>)
 ```
 
-if you are using the `kidoz-mopub.jar` define in the custom native network the `Custom event class data` column and enter a JSON object with String keys and values:
-
+- If you are using the `kidoz-mopub.jar` define in the custom native network the `Custom event class data` column and enter a JSON object with String keys and values:
 ```
 For Banner:
 {"AppID":"your_publisher_Id", "Token":"your_publisher_Token"}
@@ -43,9 +42,7 @@ For Rewarded Video:
 {"AppID":"your_publisher_Id", "Token":"your_publisher_Token"}
 ```
 
-
-3.5. If you want to connect directly with the Kidoz reward events use the following (for java files in the adapters folder only):
-
+3.5. In order to connect directly with the Kidoz reward events, use the following (for java files in the adapters folder only):
 ```
 KidozManager.setRewardedEvents(<new BaseInterstitial.IOnInterstitialRewardedEventListener>);
 ```
@@ -61,15 +58,28 @@ KidozManager.setRewardedEvents(<new BaseInterstitial.IOnInterstitialRewardedEven
   * To use Kidoz Banner: com.kidoz.mediation.mopub.adapters.KidozCustomEventBanner
 
 
-* Please Note: if you are using the java files in the adapters folder, you may need to change the Kidoz adapter classpath in your project, but make sure the class names in the MoPub dashboard correspond to your final adapter location.
+** Please Note: if you are using the java files in the adapters folder, you may need to change the Kidoz adapter classpath in your project, but make sure the class names in the MoPub dashboard correspond to your final adapter location.
+
+
+</br>
+Example for adding a network:
+</br>
+<a href="url"><img src="https://cdn.kidoz.net/sdk/mopub_add_network.png" align="center" height="500" width="433" ></a>
+</br>
+
+</br>
+Manage the network:
+</br>
+<a href="url"><img src="https://cdn.kidoz.net/sdk/mopub_manage_network.png" align="center" height="500" width="433" ></a>
+</br>
 
 
 ```
-# For any question or assistance, please contact us at SDK@kidoz.net.
+# For any question or assistance, please contact us at SDK@kidoz.net 
 </br>
 
-License
---------
+# License
+# =======
 
 Copyright 2015 KIDOZ, Inc.
 
@@ -84,4 +94,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
