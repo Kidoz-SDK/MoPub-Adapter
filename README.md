@@ -61,25 +61,25 @@ KidozManager.setRewardedEvents(<new BaseInterstitial.IOnInterstitialRewardedEven
 ** Please Note: if you are using the java files in the adapters folder, you may need to change the Kidoz adapter classpath in your project, but make sure the class names in the MoPub dashboard correspond to your final adapter location.
 
 
-</br>
+<br>
 Example for adding a network:
-</br>
-<a href="url"><img src="https://cdn.kidoz.net/sdk/mopub_add_network.png" align="center" height="500" width="433" ></a>
-</br>
+<br>
+<a href="url"><img src="https://cdn.kidoz.net/sdk/mopub_add_network.png" align="center" height="994" width="659" ></a>
+<br>
 
-</br>
+<br>
 Manage the network:
-</br>
-<a href="url"><img src="https://cdn.kidoz.net/sdk/mopub_manage_network.png" align="center" height="500" width="433" ></a>
-</br>
+<br>
+<a href="url"><img src="https://cdn.kidoz.net/sdk/mopub_manage_network.png" align="center" height="998" width="663" ></a>
+<br>
 
 
 ```
-# For any question or assistance, please contact us at SDK@kidoz.net 
-</br>
+** For any question or assistance, please contact us at SDK@kidoz.net 
+<br>
 
-# License
-# =======
+License
+=======
 
 Copyright 2015 KIDOZ, Inc.
 
