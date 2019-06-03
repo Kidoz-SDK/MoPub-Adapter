@@ -4,28 +4,34 @@ Kidoz MoPub mediation adapter
 </br>
 
 **Prerequisits:**
-* To use the Kidoz SDK adapter for MoPub you should make sure you have:
+* To use the Kidoz SDK adapter for MoPub, please make sure you have:
 1. MoPub Mediation integrated in your project.
 2. A fully functional MoPub ad placement defined in your MoPub dashboard.
 3. Kidoz SDK integrated in your project.
+
 3.1. You can get Kidoz SDK as a Gradle dependency (together with it's needed dependencies) using the following lines:
+
 ```
 compile group: 'org.greenrobot', name: 'eventbus', version: '3.0.0'
 compile 'com.android.support:support-v4:23.0.+'
 compile 'com.kidoz.sdk:KidozSDK:0.8.8.2@aar'
 ```
+
 3.2. Please make sure you have a set up Kidoz publisher account.
 
-3.3. The plugin itself consists of the java files inside the 'com\kidoz\mediation\mopub\adapters' directory, copy this entire package to your own project OR you can integrate `kidoz-mopub.jar` adapter jar file with your project.
+3.3. The plugin itself consists of the java files inside the 'com\kidoz\mediation\mopub\adapters' directory. Copy this entire package to your own project, OR either integrate `kidoz-mopub.jar` adapter jar file with your project.
 
 3.4. Set your Kidoz PublisherId & PublisherToken in the adapter using the following:
 
 if you are using the java files in the adapters folder:
+
 ```
 KidozManager.setKidozPublisherId(<publisherId>)
 KidozManager.setKidozPublisherToken(<publisherToken>)
 ```
-if you are using the `kidoz-mopub.jar` define in the custom native network the ` Custom event class data` column and enter a JSON object with String keys and values:
+
+if you are using the `kidoz-mopub.jar` define in the custom native network the `Custom event class data` column and enter a JSON object with String keys and values:
+
 ```
 For Banner:
 {"AppID":"your_publisher_Id", "Token":"your_publisher_Token"}
@@ -38,7 +44,8 @@ For Rewarded Video:
 ```
 
 
-3.5. If you want to connect directly with the Kidoz reward events use the following(for java files in the adapters folder only):
+3.5. If you want to connect directly with the Kidoz reward events use the following (for java files in the adapters folder only):
+
 ```
 KidozManager.setRewardedEvents(<new BaseInterstitial.IOnInterstitialRewardedEventListener>);
 ```
@@ -46,15 +53,15 @@ KidozManager.setRewardedEvents(<new BaseInterstitial.IOnInterstitialRewardedEven
 </br>
 
 **Integration Steps:**
-* Include the 'com.kidoz.mediation.mopub.adapters' classes in your project OR the `kidoz-mopub.jar` adapter file .
+* Include the 'com.kidoz.mediation.mopub.adapters' classes in your project OR use the `kidoz-mopub.jar` adapter file .
 * Define a Custom Native Network in your MoPub dashboard.
-* In this custom native network, define the following Kidoz custom events in the `Custom event class` column :
-* To use Kidoz full screen Interstitial: com.kidoz.mediation.mopub.adapters.KidozustomEventInterstitial
-* To use Kidoz Rewarded ad: com.kidoz.mediation.mopub.adapters.KidozCustomEventRewardedVideo
-* To use Kidoz Banner: com.kidoz.mediation.mopub.adapters.KidozCustomEventBanner
+* In this custom native network, define the following Kidoz custom events in `Custom event class` column:
+  * To use Kidoz full screen Interstitial: com.kidoz.mediation.mopub.adapters.KidozustomEventInterstitial
+  * To use Kidoz Rewarded ad: com.kidoz.mediation.mopub.adapters.KidozCustomEventRewardedVideo
+  * To use Kidoz Banner: com.kidoz.mediation.mopub.adapters.KidozCustomEventBanner
 
 
-* Please Note: if you are using the java files in the adapters folder you can change the Kidoz adapter classpath in your project but maker sure the class names you put in the MoPub dashboard correspond to your final adapter location.
+* Please Note: if you are using the java files in the adapters folder, you may need to change the Kidoz adapter classpath in your project, but make sure the class names in the MoPub dashboard correspond to your final adapter location.
 
 
 </br>
