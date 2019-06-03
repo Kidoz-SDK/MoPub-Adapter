@@ -64,7 +64,10 @@ KidozManager.setRewardedEvents(<new BaseInterstitial.IOnInterstitialRewardedEven
 * Please Note: if you are using the java files in the adapters folder, you may need to change the Kidoz adapter classpath in your project, but make sure the class names in the MoPub dashboard correspond to your final adapter location.
 
 
+```
+# For any question or assistance, please contact us at SDK@kidoz.net.
 </br>
+
 License
 --------
 
