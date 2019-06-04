@@ -63,8 +63,8 @@ KidozManager.setRewardedEvents(<new BaseInterstitial.IOnInterstitialRewardedEven
 
 </br>
 Example for adding a network:
-</br>
-<a href="url"><img src="https://cdn.kidoz.net/sdk/mopub_add_network.png" align="center" height="994" width="760" ></a>
+
+<a href="url"><img src="https://cdn.kidoz.net/sdk/mopub_add_network.png" align="left" height="994" width="760" ></a>
 </br>
 
 </br>
@@ -76,8 +76,7 @@ Manage the network:
 
 
 ```
-**For any question or assistance, please contact us at SDK@kidoz.net**
-</br>
+For any question or assistance, please contact us at SDK@kidoz.net
 
 License
 =======
