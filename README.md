@@ -22,7 +22,7 @@ compile 'com.kidoz.sdk:KidozSDK:0.8.8.2@aar'
 
 3.3. The plugin itself consists of the java files inside the 'com\kidoz\mediation\mopub\adapters' directory. Copy this entire package to your own project, OR either integrate `kidoz-mopub.jar` adapter jar file with your project.
 
-3.4. Set your Kidoz PublisherId & PublisherToken in the adapter using the following:
+3.4. Set your Kidoz PublisherId & PublisherToken in the adapter, as the following:
 
 - If you are using the java files in the adapters folder:
 ```
@@ -42,7 +42,7 @@ For Rewarded Video:
 {"AppID":"your_publisher_Id", "Token":"your_publisher_Token"}
 ```
 
-3.5. In order to connect directly with the Kidoz reward events, use the following (for java files in the adapters folder only):
+3.5. In order to connect directly with the Kidoz reward events, use the following (valid only for java files in the adapters folder):
 ```
 KidozManager.setRewardedEvents(<new BaseInterstitial.IOnInterstitialRewardedEventListener>);
 ```
@@ -50,33 +50,34 @@ KidozManager.setRewardedEvents(<new BaseInterstitial.IOnInterstitialRewardedEven
 </br>
 
 **Integration Steps:**
-* Include the 'com.kidoz.mediation.mopub.adapters' classes in your project OR use the `kidoz-mopub.jar` adapter file .
+* Include the `com.kidoz.mediation.mopub.adapters` classes in your project OR use the `kidoz-mopub.jar` adapter file .
 * Define a Custom Native Network in your MoPub dashboard.
 * In this custom native network, define the following Kidoz custom events in `Custom event class` column:
-  * To use Kidoz full screen Interstitial: com.kidoz.mediation.mopub.adapters.KidozustomEventInterstitial
-  * To use Kidoz Rewarded ad: com.kidoz.mediation.mopub.adapters.KidozCustomEventRewardedVideo
-  * To use Kidoz Banner: com.kidoz.mediation.mopub.adapters.KidozCustomEventBanner
+  * To use Kidoz full screen Interstitial: `com.kidoz.mediation.mopub.adapters.KidozustomEventInterstitial`
+  * To use Kidoz Rewarded ad: `com.kidoz.mediation.mopub.adapters.KidozCustomEventRewardedVideo`
+  * To use Kidoz Banner: `com.kidoz.mediation.mopub.adapters.KidozCustomEventBanner`
 
 
 ** Please Note: if you are using the java files in the adapters folder, you may need to change the Kidoz adapter classpath in your project, but make sure the class names in the MoPub dashboard correspond to your final adapter location.
 
 
-<br>
+</br>
 Example for adding a network:
-<br>
-<a href="url"><img src="https://cdn.kidoz.net/sdk/mopub_add_network.png" align="center" height="994" width="659" ></a>
-<br>
+</br>
+<a href="url"><img src="https://cdn.kidoz.net/sdk/mopub_add_network.png" align="center" height="994" width="760" ></a>
+</br>
 
-<br>
+</br>
 Manage the network:
-<br>
-<a href="url"><img src="https://cdn.kidoz.net/sdk/mopub_manage_network.png" align="center" height="998" width="663" ></a>
-<br>
+</br>
+<a href="url"><img src="https://cdn.kidoz.net/sdk/mopub_manage_network.png" align="center" height="998" width="760" ></a>
+</br>
+</br>
 
 
 ```
-** For any question or assistance, please contact us at SDK@kidoz.net 
-<br>
+**For any question or assistance, please contact us at SDK@kidoz.net**
+</br>
 
 License
 =======
