@@ -79,7 +79,6 @@ KidozManager.setRewardedEvents(<new BaseInterstitial.IOnInterstitialRewardedEven
 
 
 
-</br>
 ```
 For any question or assistance, please contact us at SDK@kidoz.net
 
