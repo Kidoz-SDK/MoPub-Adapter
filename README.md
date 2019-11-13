@@ -15,7 +15,7 @@ In order to use the Kidoz SDK adapter for MoPub, please make sure you have:
 ```
 compile group: 'org.greenrobot', name: 'eventbus', version: '3.0.0'
 compile 'com.android.support:support-v4:23.0.+'
-compile 'com.kidoz.sdk:KidozSDK:0.8.8.2@aar'
+compile 'com.kidoz.sdk:KidozSDK:0.8.8.4@aar'
 ```
 
 3.2. Please make sure you have already set up a Kidoz publisher account.
